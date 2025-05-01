@@ -65,7 +65,7 @@ export function ProductDetails({
     }),
     [],
   );
-console.log(data)
+  console.log(data);
   return (
     <div className="container space-y-4 lg:max-w-none lg:px-0">
       {data.richtext && (

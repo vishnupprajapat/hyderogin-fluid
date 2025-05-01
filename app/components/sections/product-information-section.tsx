@@ -30,7 +30,7 @@ export function ProductInformationSection(
   const {data} = props;
   const variantsPromise = loaderData.variants;
   const aspectRatio = getAspectRatioData(data.mediaAspectRatio);
-console.log(data)
+  console.log(data);
   if (variantsPromise) {
     return (
       <>
