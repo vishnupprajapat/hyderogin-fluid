@@ -1,4 +1,4 @@
-import {LazyMotion} from 'framer-motion';
+import {LazyMotion} from 'motion/react';
 
 export function FramerMotion(props: {children: React.ReactNode}) {
   const loadFeatures = async () =>

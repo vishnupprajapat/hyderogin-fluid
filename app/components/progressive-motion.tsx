@@ -1,7 +1,6 @@
-import {type HTMLMotionProps, m} from 'framer-motion';
+import {type HTMLMotionProps, m} from 'motion/react';
 
 import {useHydrated} from '~/hooks/use-hydrated';
-
 /**
  * Renders a progressive motion div based on the hydration status.
  * Useful to render content when JS is disabled.

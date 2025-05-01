@@ -61,7 +61,7 @@ export default defineConfig({
        * Include 'example-dep' in the array below.
        * @see https://vitejs.dev/config/dep-optimization-options
        */
-      include: ['react-compiler-runtime', '@sanity/image-url','framer-motion'],
+      include: ['react-compiler-runtime', '@sanity/image-url'],
     },
   },
 });
