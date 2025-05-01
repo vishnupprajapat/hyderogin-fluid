@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "sanity-io.vscode-sanity",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "dbaeumer.vscode-eslint"
+  ]
+}
