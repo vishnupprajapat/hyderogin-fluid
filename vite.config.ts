@@ -41,9 +41,7 @@ export default defineConfig({
     typegenWatcher(),
   ],
   build: {
-    // Allow a strict Content-Security-Policy
-    // withtout inlining assets as base64:
-    assetsInlineLimit: 0,
+    sourcemap: false,
   },
   resolve: {
     mainFields: ['browser', 'module', 'main'],
