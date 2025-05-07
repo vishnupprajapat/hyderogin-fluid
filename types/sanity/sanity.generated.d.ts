@@ -1717,6 +1717,24 @@ export type Link =
       [internalGroqTypeReferenceTo]?: 'blogPost';
     };
 
+export type InternationalizedArrayBlogPostValue = {
+  _type: 'internationalizedArrayBlogPostValue';
+  value?: {
+    title?: Array<
+      {
+        _key: string;
+      } & InternationalizedArrayStringValue
+    >;
+    seo?: Seo;
+    slug?: Array<
+      {
+        _key: string;
+      } & InternationalizedArraySlugValue
+    >;
+    _type: 'blogPost';
+  };
+};
+
 export type InternationalizedArrayBannerRichtextValue = {
   _type: 'internationalizedArrayBannerRichtextValue';
   value?: BannerRichtext;
@@ -1756,6 +1774,12 @@ export type InternationalizedArrayStringValue = {
   _type: 'internationalizedArrayStringValue';
   value?: string;
 };
+
+export type InternationalizedArrayBlogPost = Array<
+  {
+    _key: string;
+  } & InternationalizedArrayBlogPostValue
+>;
 
 export type InternationalizedArrayBannerRichtext = Array<
   {
@@ -2254,6 +2278,7 @@ export type AllSanitySchemaTypes =
   | ContentPosition
   | Padding
   | Link
+  | InternationalizedArrayBlogPostValue
   | InternationalizedArrayBannerRichtextValue
   | InternationalizedArrayRichtextValue
   | InternationalizedArrayProductRichtextValue
@@ -2262,6 +2287,7 @@ export type AllSanitySchemaTypes =
   | InternationalizedArraySlugValue
   | InternationalizedArrayTextValue
   | InternationalizedArrayStringValue
+  | InternationalizedArrayBlogPost
   | InternationalizedArrayBannerRichtext
   | InternationalizedArrayRichtext
   | InternationalizedArrayProductRichtext

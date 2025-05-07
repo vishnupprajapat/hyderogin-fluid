@@ -62,7 +62,7 @@ export function defineSanityConfig(
           field: {
             documentTypes: ['home', 'page', 'products', 'collections', 'collectionTemplate', 
               'themeContent', 'header', 'footer', 'announcementBar', 'productRichtext', 
-              'bannerRichtext', 'templates', 'settings', 'sections','productTemplate'
+              'bannerRichtext', 'templates', 'settings', 'sections','productTemplate','blogPost'
             ],
             languages: [
               { id: 'en', title: 'English' },
@@ -95,6 +95,7 @@ export function defineSanityConfig(
           'productRichtext',
           'richtext',
           'bannerRichtext',
+          'blogPost'
         ],
         buttonLocations: ['field'],
       }),
@@ -109,6 +110,7 @@ export function defineSanityConfig(
           'footer',
           'product',
           'collection',
+          'blogPost'
         ],
       }),
       ...(isDev ? devOnlyPlugins : []),

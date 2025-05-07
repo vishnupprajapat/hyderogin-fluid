@@ -18,6 +18,7 @@ export const structure: StructureResolver = (S, context) => {
     .title('Content')
     .items([
       singleton(S, SINGLETONS.home),
+      S.documentTypeListItem('blogPost').icon(PanelsTopLeft),
       S.documentTypeListItem('page').icon(PanelsTopLeft),
       products(S, context),
       collections(S, context),
