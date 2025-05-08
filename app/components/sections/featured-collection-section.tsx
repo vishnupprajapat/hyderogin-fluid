@@ -20,6 +20,11 @@ import {Button} from '../ui/button';
 type FeaturedCollectionSectionProps =
   SectionOfType<'featuredCollectionSection'>;
 
+type PromiseResult = {
+  status: 'fulfilled' | 'rejected';
+  value: FeaturedCollectionQuery;
+};
+
 /**
  * `FeaturedCollectionSection` is a section that displays a collection of products.
  * The collection data is fetched from Shopify using the `featuredCollectionPromise`
@@ -120,13 +125,14 @@ function AwaitFeaturedCollection(props: {
     <Suspense fallback={props.fallback}>
       <Await errorElement={props.error} resolve={featuredCollectionPromise}>
         {(data) => {
+          const results = data as unknown as PromiseResult[];
           // Resolve the collection data from Shopify with the gid from Sanity
           let collection:
             | NonNullable<FeaturedCollectionQuery['collection']>
             | null
             | undefined;
 
-          for (const result of data) {
+          for (const result of results) {
             if (result.status === 'fulfilled') {
               const {collection: resultCollection} = result.value;
               // Check if the gid from Sanity is the same as the gid from Shopify

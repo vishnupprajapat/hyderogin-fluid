@@ -99,7 +99,7 @@ export function createSanityContext(
   const {withCache, preview, strategy, clientConfig} = options;
   const {client} = getSanityClient({config: clientConfig, preview});
 
-  setServerClient(client);
+  setServerClient(client as any);
 
   const sanity = {
     async loadQuery<T>(

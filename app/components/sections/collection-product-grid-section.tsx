@@ -100,7 +100,8 @@ export function CollectionProductGridSection(
         resolve={collectionProductGridPromise}
       >
         {(result) => {
-          const collection = result?.collection as ShopifyCollection;
+          const typedResult = result as CollectionProductGridQuery;
+          const collection = typedResult?.collection as ShopifyCollection;
 
           if (!collection) {
             return null;

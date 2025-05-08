@@ -104,7 +104,6 @@ export default function Product() {
 
   const template = data?.product?.template || data?.defaultProductTemplate;
   const selectedVariant = product.variants.nodes[0];
-  console.log(data);
 
   return (
     <ProductProvider data={product}>

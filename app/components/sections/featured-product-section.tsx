@@ -27,6 +27,11 @@ import {Skeleton} from '../skeleton';
 export type FeaturedProductSectionProps =
   SectionOfType<'featuredProductSection'>;
 
+type PromiseResult = {
+  status: 'fulfilled' | 'rejected';
+  value: FeaturedProductQuery;
+};
+
 /**
  * `FeaturedProductSection` is a section that displays a product.
  * The product data is fetched from Shopify using the `featuredProductPromise`
@@ -199,7 +204,7 @@ function AwaitFeaturedProduct(props: {
 
   return (
     <Suspense fallback={props.fallback}>
-      <Await errorElement={props.error} resolve={featuredProductPromise}>
+      <Await errorElement={props.error} resolve={featuredProductPromise as Promise<PromiseResult[]>}>
         {(data) => {
           // Resolve the collection data from Shopify with the gid from Sanity
           let product:

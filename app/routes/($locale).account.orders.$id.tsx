@@ -1,5 +1,6 @@
 import type {FulfillmentStatus} from '@shopify/hydrogen/customer-account-api-types';
 import type {OrderFragment} from 'types/shopify/customeraccountapi.generated';
+import type {MoneyV2} from '@shopify/hydrogen/storefront-api-types';
 
 import {Link, type MetaFunction, useLoaderData} from '@remix-run/react';
 import {flattenConnection, Image, Money} from '@shopify/hydrogen';
@@ -15,8 +16,17 @@ import {CUSTOMER_ORDER_QUERY} from '~/data/shopify/customer-account/queries';
 import {useSanityThemeContent} from '~/hooks/use-sanity-theme-content';
 import {statusMessage} from '~/lib/utils';
 
+type LoaderData = {
+  discountPercentage: number | false;
+  discountValue: false | ({ __typename: "MoneyV2" } & Pick<MoneyV2, "amount" | "currencyCode">);
+  fulfillmentStatus: FulfillmentStatus;
+  lineItems: any[];
+  order: OrderFragment;
+};
+
 export const meta: MetaFunction<typeof loader> = ({data}) => {
-  return [{title: `Order ${data?.order?.name}`}];
+  const {order} = data as LoaderData;
+  return [{title: `Order ${order?.name}`}];
 };
 
 export async function loader({context, params, request}: LoaderFunctionArgs) {
@@ -89,7 +99,7 @@ export default function OrderRoute() {
     fulfillmentStatus,
     lineItems,
     order,
-  } = useLoaderData<typeof loader>();
+  } = useLoaderData<LoaderData>();
   const {themeContent} = useSanityThemeContent();
   return (
     <div className="container py-20">

@@ -6,7 +6,7 @@ import {getImageDimensions} from '@sanity/asset-utils';
 import {stegaClean} from '@sanity/client/stega';
 import {cx} from 'class-variance-authority';
 import {m, transform, useMotionValueEvent, useTransform} from 'motion/react';
-import React, {Suspense, useEffect, useState} from 'react';
+import React, {Suspense, useEffect, useMemo, useState} from 'react';
 
 import {useBoundedScroll} from '~/hooks/use-bounded-scroll';
 import {useColorsCssVars} from '~/hooks/use-colors-css-vars';
@@ -24,13 +24,15 @@ import CartDrawer from './cart-drawer-wrapper';
 import {Logo} from './header-logo';
 
 export function Header() {
-  const {sanityRoot} = useRootLoaderData();
+  const {sanityRoot, locale: currentLocale} = useRootLoaderData();
   const data = sanityRoot?.data;
   const header = data?.header;
   const logoWidth = header?.desktopLogoWidth
     ? `${header?.desktopLogoWidth}px`
     : undefined;
+
   const homePath = useLocalePath({path: '/'});
+
   const colorsCssVars = useColorsCssVars({
     selector: 'header',
     settings: header,
@@ -41,7 +43,17 @@ export function Header() {
       <style dangerouslySetInnerHTML={{__html: colorsCssVars}} />
       <div className="container">
         <div className="flex items-center justify-between">
-          <Link className="group" prefetch="intent" to={homePath}>
+          <Link 
+            className="group" 
+            prefetch="intent" 
+            to={homePath}
+            onClick={(e) => {
+              if (!currentLocale?.default) {
+                e.preventDefault();
+                window.location.href = homePath;
+              }
+            }}
+          >
             <Logo
               className="h-auto w-[var(--logoWidth)]"
               sizes={logoWidth}

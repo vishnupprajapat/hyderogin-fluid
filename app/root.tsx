@@ -5,6 +5,7 @@ import type {
   MetaFunction,
 } from '@shopify/remix-oxygen';
 import type {ROOT_QUERYResult} from 'types/sanity/sanity.generated';
+import type {CartReturn, ShopAnalytics} from '@shopify/hydrogen';
 
 import {
   isRouteErrorResponse,
@@ -37,6 +38,7 @@ import {seoPayload} from './lib/seo.server';
 import {generateFaviconUrls} from './lib/generate-favicon-urls';
 
 import tailwindCss from './styles/tailwind.css?url';
+import { SANITY_STUDIO_URL } from './sanity/constants';
 
 export type RootLoader = typeof loader;
 
@@ -185,7 +187,7 @@ export function Layout({children}: {children: React.ReactNode}) {
   const data = useRouteLoaderData<RootLoader>('root');
   const {pathname} = useLocation();
 
-  const isCmsRoute = pathname.includes('/cms');
+  const isCmsRoute = pathname.includes(SANITY_STUDIO_URL);
 
   return (
     <html lang={data?.locale.language.toLowerCase()}>
@@ -202,9 +204,9 @@ export function Layout({children}: {children: React.ReactNode}) {
           children
         ) : data ? (
           <Analytics.Provider
-            cart={data.cart}
+            cart={data.cart as CartReturn}
             consent={data.consent}
-            shop={data.shop}
+            shop={data.shop as ShopAnalytics}
           >
             <AppLayout>{children}</AppLayout>
             <CustomAnalytics />

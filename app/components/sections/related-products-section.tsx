@@ -1,4 +1,5 @@
 import type {SectionDefaultProps, SectionOfType} from 'types';
+import type {ProductRecommendationsQuery} from 'types/shopify/storefrontapi.generated';
 
 import {Await, useLoaderData} from '@remix-run/react';
 import {Suspense} from 'react';
@@ -55,18 +56,27 @@ export function RelatedProductsSection(
               </div>
             </Skeleton>
           }
-          resolve={relatedProductsPromise}
+          resolve={relatedProductsPromise as Promise<ProductRecommendationsQuery>}
         >
-          {(result) => (
-            <RelatedProducts
-              columns={{
-                desktop: data.desktopColumns,
-              }}
-              data={result}
-              heading={data.heading}
-              maxProducts={data.maxProducts || 3}
-            />
-          )}
+          {(result) => {
+            const typedResult = {
+              ...result,
+              additional: {
+                nodes: result.recommended || []
+              }
+            } as ProductRecommendationsQuery;
+            
+            return (
+              <RelatedProducts
+                columns={{
+                  desktop: data.desktopColumns,
+                }}
+                data={typedResult}
+                heading={data.heading}
+                maxProducts={data.maxProducts || 3}
+              />
+            );
+          }}
         </Await>
       </Suspense>
     </div>

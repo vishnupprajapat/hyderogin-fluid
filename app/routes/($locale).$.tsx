@@ -20,12 +20,11 @@ export async function loader({context, params, request}: LoaderFunctionArgs) {
   const {env, locale, sanity, storefront} = context;
   const pathname = new URL(request.url).pathname;
   const handle = getPageHandle({locale, params, pathname});
-  const language = locale?.language.toLowerCase();
 
   const queryParams = {
     defaultLanguage: DEFAULT_LOCALE.language.toLowerCase(),
     handle,
-    language,
+    language: locale?.language.toLowerCase(),
   };
 
   const page = await sanity.loadQuery<PAGE_QUERYResult>(

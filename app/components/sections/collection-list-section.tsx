@@ -90,11 +90,11 @@ function AwaitCollectionList(props: {
             | null
             | undefined;
 
-          for (const result of data) {
+          for (const result of data as Array<PromiseSettledResult<CollectionsQuery>>) {
             if (result.status === 'fulfilled') {
               const {collections: resultCollections} = result.value;
               const shopifyCollectionListGids = resultCollections.nodes
-                .map((collection) => collection.id)
+                .map((collection: CollectionsQuery['collections']['nodes'][0]) => collection.id)
                 .sort()
                 .join(',');
               // Compare the Sanity gids with the Shopify gids

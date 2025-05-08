@@ -22,7 +22,6 @@ export async function createAppLoadContext(
   const isDev = envVars.NODE_ENV === 'development';
   const locale = getLocaleFromRequest(request);
   const waitUntil = executionContext.waitUntil.bind(executionContext);
-
   /*
    * Open a cache instance in the worker and a custom session instance.
    */

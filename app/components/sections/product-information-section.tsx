@@ -21,6 +21,14 @@ type ProductVariantsContextType = {
   variants: ProductVariantFragmentFragment[];
 };
 
+type VariantsResult = {
+  product: {
+    variants: {
+      nodes: ProductVariantFragmentFragment[];
+    };
+  };
+};
+
 export function ProductInformationSection(
   props: SectionDefaultProps & {
     data: ProductInformationSectionProps;
@@ -30,7 +38,6 @@ export function ProductInformationSection(
   const {data} = props;
   const variantsPromise = loaderData.variants;
   const aspectRatio = getAspectRatioData(data.mediaAspectRatio);
-  console.log(data);
   if (variantsPromise) {
     return (
       <>
@@ -55,11 +62,12 @@ export function ProductInformationSection(
                 />
               </Skeleton>
             }
-            resolve={variantsPromise}
+            resolve={variantsPromise as Promise<VariantsResult>}
           >
-            {({product}) => {
-              const variants = product?.variants?.nodes.length
-                ? flattenConnection(product.variants)
+            {(result) => {
+              const typedResult = result as VariantsResult;
+              const variants = typedResult.product?.variants?.nodes.length
+                ? flattenConnection(typedResult.product.variants)
                 : [];
 
               return (

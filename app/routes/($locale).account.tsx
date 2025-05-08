@@ -56,7 +56,7 @@ export async function loader({context}: LoaderFunctionArgs) {
 }
 
 export default function Authenticated() {
-  const data = useLoaderData<typeof loader>();
+  const {data} = useLoaderData<typeof loader>();
   const outlet = useOutlet();
   const matches = useMatches();
 
@@ -78,8 +78,9 @@ export default function Authenticated() {
 }
 
 function AccountDialog() {
-  const data = useLoaderData<typeof loader>();
+  const {data} = useLoaderData<typeof loader>();
   const navigate = useNavigate();
+
 
   const handleOpenChange = () => {
     navigate('/account', {
