@@ -1,10 +1,10 @@
 <h1 align='center'>
-  Fluid
+  Shopgeist
 </h1>
 
-![Fluid](https://github.com/frontvibe/fluid/assets/10447155/0a6b881f-7034-4002-8246-240ea1138d4b)
+![Shopgeist](https://github.com/frontvibe/fluid/assets/10447155/0a6b881f-7034-4002-8246-240ea1138d4b)
 
-Fluid is a Hydrogen theme that let's you easily build Shopify headless storefronts by organizing your content with the Sanity CMS. Build your pages by assembling sections like you would do in a Shopify Liquid theme.
+Shopgeist is a Hydrogen theme that let's you easily build Shopify headless storefronts by organizing your content with the Sanity CMS. Build your pages by assembling sections like you would do in a Shopify Liquid theme.
 
 Using Sanity [Visual Editing](https://www.youtube.com/watch?v=0qheADLqhBs), content editors can update content in real-time and live preview.
 
@@ -16,7 +16,7 @@ Visit [fluid.frontvibe.com](https://fluid.frontvibe.com/) to read the documentat
 
 ## Credits
 
-Fluid is built with amazing technologies:
+Shopgeist is built with amazing technologies:
 
 - [Remix](https://remix.run/)
 - [Hydrogen](https://hydrogen.shopify.dev)
@@ -32,13 +32,3 @@ Fluid is built with amazing technologies:
 - [color2k](https://github.com/ricokahler/color2k)
 - [@vercel/stega](https://www.npmjs.com/package/@vercel/stega)
 
-The project is heavily inspired by:
-
-- [Shopify Dawn](https://github.com/Shopify/dawn)
-- [Sanity Akva](https://github.com/sanity-io/demo-ecommerce)
-- [Hydrogen demo store](https://github.com/Shopify/hydrogen-demo-store)
-- [Build UI](https://buildui.com/recipes)
-
-## License
-
-Licensed under the [MIT license](https://github.com/frontvibe/fluid/blob/main/LICENSE.md)

@@ -53,7 +53,7 @@ export function defineSanityConfig(
 
   return defineConfig({
     name: 'default',
-    title: 'Fluid',
+    title: 'Shopgeist',
     basePath: SANITY_STUDIO_URL,
     ...config,
     plugins: [
@@ -117,7 +117,7 @@ export function defineSanityConfig(
     ],
     schema: {
       types: schemaTypes,
-      // Filter out singleton types from the global “New document” menu options
+      // Filter out singleton types from the global "New document" menu options
       templates: (templates) =>
         templates.filter(({ schemaType }) => !singletonsTypes.has(schemaType)),
     },

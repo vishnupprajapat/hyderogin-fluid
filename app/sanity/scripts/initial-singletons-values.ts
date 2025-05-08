@@ -101,7 +101,7 @@ export const initialSingletonsValues = {
         {
           _type: 'internationalizedArrayStringValue',
           _key: 'en',
-          value: 'Fluid',
+          value: 'Shopgeist',
         },
       ],
       description: [
@@ -109,7 +109,7 @@ export const initialSingletonsValues = {
           _type: 'internationalizedArrayTextValue',
           _key: 'en',
           value:
-            'Fluid is a Hydrogen theme that lets you easily build Shopify headless storefronts by organizing your content with Sanity.',
+            'Shopgeist is a Hydrogen theme that lets you easily build Shopify headless storefronts by organizing your content with Sanity.',
         },
       ],
     },
@@ -132,7 +132,7 @@ export const initialSingletonsValues = {
     },
   },
   settings: {
-    siteName: 'Fluid',
+    siteName: 'Shopgeist',
     grid: {
       horizontalSpace: 20,
       verticalSpace: 20,
@@ -201,6 +201,58 @@ export const initialSingletonsValues = {
     twitter: 'https://twitter.com/shopify',
     vimeo: 'https://vimeo.com/shopify',
     youtube: 'https://www.youtube.com/shopify',
+    announcementBar: [
+      {
+        _key: DEFAULT_LOCALE.language.toLowerCase(),
+        _type: 'internationalizedArrayAnnouncementBarValue',
+        value: [
+          {
+            _key: nanoid(),
+            _type: 'announcement',
+            externalLink: 'https://github.com/frontvibe/fluid',
+            openInNewTab: true,
+            text: '🐙 Give us a star ⭐️',
+          },
+        ],
+      },
+    ],
+    announcementBarColorScheme: {
+      _ref: 'dark-color-scheme',
+      _type: 'reference',
+    },
+    menu: [
+      {
+        _key: DEFAULT_LOCALE.language.toLowerCase(),
+        _type: 'internationalizedArrayHeaderNavigationValue',
+        value: [
+          {
+            _key: nanoid(),
+            _type: 'internalLink',
+            link: {
+              _ref: 'collections-page',
+              _type: 'reference',
+            },
+            name: 'Collections',
+          },
+          {
+            _key: nanoid(),
+            _type: 'internalLink',
+            link: {
+              _ref: 'products-page',
+              _type: 'reference',
+            },
+            name: 'Products',
+          },
+        ],
+      },
+    ],
+    copyright: [
+      {
+        _key: DEFAULT_LOCALE.language.toLowerCase(),
+        _type: 'internationalizedArrayStringValue',
+        value: '© 2024 Shopgeist, Inc. All rights reserved.',
+      },
+    ],
   },
   header: {
     showSeparatorLine: true,
@@ -267,7 +319,7 @@ export const initialSingletonsValues = {
           {
             _key: DEFAULT_LOCALE.language.toLowerCase(),
             _type: 'internationalizedArrayStringValue',
-            value: '© 2024 Fluid, Inc. All rights reserved.',
+            value: '© 2024 Shopgeist, Inc. All rights reserved.',
           },
         ],
         settings: {

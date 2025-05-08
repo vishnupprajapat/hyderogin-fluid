@@ -52,7 +52,7 @@ export default defineType({
       title: 'Site name',
       type: 'string',
       group: 'brand',
-      initialValue: 'Fluid',
+      initialValue: 'Shopgeist',
     }),
     defineField({
       name: 'siteDescription',
