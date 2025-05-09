@@ -85,6 +85,8 @@ function FilterCheckbox({
   const {optimisticData: clearFilters} =
     useOptimisticNavigationData<boolean>('clear-all-filters');
   const {themeContent} = useSanityThemeContent();
+  const [params] = useSearchParams();
+  const location = useLocation();
 
   let optionLabel = option.label;
 
@@ -110,10 +112,24 @@ function FilterCheckbox({
   }
 
   const handleToggleFilter = useCallback(() => {
-    const navigateTo = filterIsApplied ? removeFilterLink : addFilterLink;
+    const newParams = new URLSearchParams(params);
     const optimisticChecked = !filterIsApplied;
 
-    navigate(navigateTo, {
+    if (optimisticChecked) {
+      // Add filter
+      const input = JSON.parse(option.input as string);
+      Object.entries(input).forEach(([key, value]) => {
+        newParams.append(`${FILTER_URL_PREFIX}${key}`, JSON.stringify(value));
+      });
+    } else {
+      // Remove filter
+      const input = JSON.parse(option.input as string);
+      Object.entries(input).forEach(([key, value]) => {
+        newParams.delete(`${FILTER_URL_PREFIX}${key}`, JSON.stringify(value));
+      });
+    }
+
+    navigate(`${location.pathname}?${newParams.toString()}`, {
       preventScrollReset: true,
       replace: true,
       state: {
@@ -123,14 +139,12 @@ function FilterCheckbox({
         optimisticId: optionId,
       },
     });
-  }, [filterIsApplied, removeFilterLink, addFilterLink, navigate, optionId]);
+  }, [filterIsApplied, option.input, params, location, navigate, optionId]);
 
   return (
     <div
       className={cn([
         'flex items-center gap-2',
-        // If the navigation is pending, animate after a delay
-        // to avoid flickering when navigation is fast
         pending && 'pointer-events-none animate-pulse delay-500',
       ])}
     >
@@ -160,25 +174,22 @@ export function PriceRangeFilter({
   appliedFilters: AppliedFilter[];
 }) {
   const location = useLocation();
-  const params = useMemo(
-    () => new URLSearchParams(location.search),
-    [location.search],
-  );
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+  const {optimisticData} = useOptimisticNavigationData<boolean>('clear-all-filters');
+  const {themeContent} = useSanityThemeContent();
+
   const priceFilter = params.get(`${FILTER_URL_PREFIX}price`);
   const price = priceFilter
     ? (JSON.parse(priceFilter) as ProductFilter['price'])
     : undefined;
   const min = isNaN(Number(price?.min)) ? undefined : Number(price?.min);
   const max = isNaN(Number(price?.max)) ? undefined : Number(price?.max);
-  const navigate = useNavigate();
-  const {optimisticData} =
-    useOptimisticNavigationData<boolean>('clear-all-filters');
+
   const [minPrice, setMinPrice] = useState(min);
   const [maxPrice, setMaxPrice] = useState(max);
-  const {themeContent} = useSanityThemeContent();
 
   useEffect(() => {
-    // Reset prices when the user clears all filters
     if (optimisticData) {
       setMinPrice(undefined);
       setMaxPrice(undefined);
@@ -187,20 +198,18 @@ export function PriceRangeFilter({
 
   useDebounce(
     () => {
+      const newParams = new URLSearchParams(params);
+      
       if (minPrice === undefined && maxPrice === undefined) {
-        params.delete(`${FILTER_URL_PREFIX}price`);
-        navigate(`${location.pathname}?${params.toString()}`, {
-          preventScrollReset: true,
-          replace: true,
-        });
-        return;
+        newParams.delete(`${FILTER_URL_PREFIX}price`);
+      } else {
+        const price = {
+          ...(minPrice === undefined ? {} : {min: minPrice}),
+          ...(maxPrice === undefined ? {} : {max: maxPrice}),
+        };
+        newParams.set(`${FILTER_URL_PREFIX}price`, JSON.stringify(price));
       }
 
-      const price = {
-        ...(minPrice === undefined ? {} : {min: minPrice}),
-        ...(maxPrice === undefined ? {} : {max: maxPrice}),
-      };
-      const newParams = filterInputToParams({price}, params);
       navigate(`${location.pathname}?${newParams.toString()}`, {
         preventScrollReset: true,
         replace: true,

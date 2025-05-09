@@ -13,6 +13,7 @@ import { structureTool } from 'sanity/structure';
 
 import IconPreview from './components/icons/preview-icon';
 import {
+  DOCUMENT_TYPES,
   SANITY_API_VERSION,
   SANITY_STUDIO_PREVIEW_URL,
   SANITY_STUDIO_URL,
@@ -60,14 +61,8 @@ export function defineSanityConfig(
       assist({
         translate: {
           field: {
-            documentTypes: ['home', 'page', 'products', 'collections', 'collectionTemplate', 
-              'themeContent', 'header', 'footer', 'announcementBar', 'productRichtext', 
-              'bannerRichtext', 'templates', 'settings', 'sections','productTemplate','blogPost'
-            ],
-            languages: [
-              { id: 'en', title: 'English' },
-              { id: 'fr', title: 'French' },
-            ],
+            documentTypes: DOCUMENT_TYPES,
+            languages
           },
         },
       }),
@@ -102,16 +97,7 @@ export function defineSanityConfig(
       languageFilter({
         supportedLanguages: languages,
         defaultLanguages: [languages[0].id],
-        documentTypes: [
-          'page',
-          'home',
-          'themeContent',
-          'header',
-          'footer',
-          'product',
-          'collection',
-          'blogPost'
-        ],
+        documentTypes: DOCUMENT_TYPES,
       }),
       ...(isDev ? devOnlyPlugins : []),
     ],

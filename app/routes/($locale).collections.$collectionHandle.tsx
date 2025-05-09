@@ -44,6 +44,7 @@ export async function loader({context, params, request}: LoaderFunctionArgs) {
 
   const [cmsCollection, {collection}] = await collectionData;
 
+
   if (!collection?.id || !cmsCollection) {
     throw new Response('collection', {status: 404});
   }

@@ -149,11 +149,16 @@ function SortRadioGroup(props: {
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const {pending} = useOptimisticNavigationData<SortParam>('sort-radio');
 
   const handleToggleSort = useCallback(
     (value: SortParam) => {
-      const to = getSortLink(value, params, location);
-      navigate(to, {
+      const newParams = new URLSearchParams(params);
+      // Remove cursor parameter when changing sort
+      newParams.delete('cursor');
+      newParams.set('sort', value);
+      
+      navigate(`${location.pathname}?${newParams.toString()}`, {
         preventScrollReset: true,
         replace: true,
         state: {
@@ -168,7 +173,10 @@ function SortRadioGroup(props: {
   if (props.layout === 'desktop') {
     return (
       <DropdownMenuRadioGroup
-        className={cn([props.className])}
+        className={cn([
+          props.className,
+          pending && 'pointer-events-none animate-pulse delay-500'
+        ])}
         onValueChange={(value) => handleToggleSort(value as SortParam)}
         value={activeItem?.key || items[0].key}
       >
@@ -179,7 +187,10 @@ function SortRadioGroup(props: {
 
   return (
     <RadioGroup
-      className={cn([props.className])}
+      className={cn([
+        props.className,
+        pending && 'pointer-events-none animate-pulse delay-500'
+      ])}
       onValueChange={handleToggleSort}
       value={activeItem?.key || items[0].key}
     >

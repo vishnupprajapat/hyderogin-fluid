@@ -6,6 +6,7 @@ import {useState} from 'react';
 import {useOptimisticNavigationData} from '~/hooks/use-optimistic-navigation-data';
 import {useSanityThemeContent} from '~/hooks/use-sanity-theme-content';
 import {cn} from '~/lib/utils';
+import {useSearchParams} from '@remix-run/react';
 
 import type {AppliedFilter} from './sort-filter-layout';
 
@@ -37,6 +38,8 @@ export function MobileDrawer({
   const {themeContent} = useSanityThemeContent();
   const heading = themeContent?.collection?.filterAndSort;
   const {pending} = useOptimisticNavigationData<boolean>('clear-all-filters');
+  const [searchParams] = useSearchParams();
+  const hasActiveFilters = appliedFilters.length > 0 || searchParams.has('sort');
 
   return (
     <div className="touch:block lg:hidden">
@@ -86,7 +89,7 @@ export function MobileDrawer({
             </ScrollArea>
           </div>
           <AnimatePresence>
-            {appliedFilters.length > 0 && (
+            {hasActiveFilters && (
               <div>
                 <m.div
                   animate={{
@@ -104,8 +107,7 @@ export function MobileDrawer({
                     <Button
                       className={cn([
                         'flex items-center gap-1',
-                        pending &&
-                          'pointer-events-none animate-pulse delay-500',
+                        pending && 'pointer-events-none animate-pulse delay-500',
                       ])}
                       onClick={onClearAllFilters}
                       variant="ghost"
