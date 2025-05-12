@@ -10,7 +10,7 @@ import {mergeMeta} from '~/lib/meta';
 import {getSeoMetaFromMatches} from '~/lib/seo';
 import {seoPayload} from '~/lib/seo.server';
 
-const PAGE_BY = 9;
+const PAGE_BY = 40;
 
 export const meta: MetaFunction<typeof loader> = mergeMeta(({matches}) =>
   getSeoMetaFromMatches(matches),
@@ -57,7 +57,7 @@ export default function AllProducts() {
   const products = data.products?.nodes.length
     ? flattenConnection(data.products)
     : [];
-
+  console.log(data);
   return (
     <div className="container py-20">
       {products.length > 0 ? (

@@ -13,7 +13,7 @@ import {
   useSearchParams,
 } from '@remix-run/react';
 import {Pagination} from '@shopify/hydrogen';
-import {Suspense, useCallback, useEffect, useMemo} from 'react';
+import {Suspense, useCallback, useEffect, useMemo, useRef} from 'react';
 
 import type {loader} from '~/routes/($locale).collections.$collectionHandle';
 
@@ -198,16 +198,52 @@ function ProductsLoadedOnScroll({
   const navigate = useNavigate();
   const {pending} = useOptimisticNavigationData<boolean>('clear-all-filters');
   const {themeContent} = useSanityThemeContent();
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const [searchParams] = useSearchParams();
+  const {pathname} = useLocation();
 
+  // Reset pagination when sort changes
   useEffect(() => {
-    if (inView && hasNextPage) {
-      navigate(nextPageUrl, {
+    const sort = searchParams.get('sort');
+    if (sort) {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('cursor');
+      navigate(`${pathname}?${newParams.toString()}`, {
         preventScrollReset: true,
         replace: true,
-        state,
       });
     }
-  }, [inView, navigate, state, nextPageUrl, hasNextPage]);
+  }, [searchParams.get('sort')]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && hasNextPage) {
+          navigate(nextPageUrl, {
+            preventScrollReset: true,
+            replace: true,
+            state,
+          });
+        }
+      },
+      {
+        root: null,
+        rootMargin: '100px',
+        threshold: 0.1,
+      },
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      if (loadMoreRef.current) {
+        observer.unobserve(loadMoreRef.current);
+      }
+    };
+  }, [hasNextPage, navigate, nextPageUrl, state]);
 
   if (!nodes || nodes.length === 0) {
     return (
@@ -230,12 +266,17 @@ function ProductsLoadedOnScroll({
   }
 
   return (
-    <ProductCardGrid
-      columns={{
-        desktop: columns?.desktop,
-        mobile: columns?.mobile,
-      }}
-      products={nodes}
-    />
+    <>
+      <ProductCardGrid
+        columns={{
+          desktop: columns?.desktop,
+          mobile: columns?.mobile,
+        }}
+        products={nodes}
+      />
+      {hasNextPage && (
+        <div ref={loadMoreRef} className="h-10 w-full" />
+      )}
+    </>
   );
 }
